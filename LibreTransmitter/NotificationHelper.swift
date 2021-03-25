@@ -27,7 +27,7 @@ enum NotificationHelper {
         case restoredState = "no.bjorninge.miaomiao.state-notification"
     }
 
-    public static func vibrateIfNeeded(count: Int = 3) {
+    public static func vibrateIfNeeded(count: Int = 4) {
         if UserDefaults.standard.mmGlucoseAlarmsVibrate {
             vibrate(times: count)
         }
