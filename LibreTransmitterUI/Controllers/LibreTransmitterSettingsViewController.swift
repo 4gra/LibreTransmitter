@@ -24,22 +24,33 @@ public class LibreTransmitterSettingsViewController: UITableViewController, SubV
     private let isDemoMode = false
     public var cgmManager: LibreTransmitterManager?
 
-    public let glucoseUnit: HKUnit
+    private let displayGlucoseUnitObservable: DisplayGlucoseUnitObservable
+
+     //private lazy var cancellables: Set AnyCancellable ()
+     
+     private var glucoseUnit: HKUnit {
+         displayGlucoseUnitObservable.displayGlucoseUnit
+     }
 
     public let allowsDeletion: Bool
 
-    public init(cgmManager: LibreTransmitterManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
+    public init(cgmManager: LibreTransmitterManager, displayGlucoseUnitObservable: DisplayGlucoseUnitObservable, allowsDeletion: Bool) {
         self.cgmManager = cgmManager
-        self.glucoseUnit = glucoseUnit
+        self.displayGlucoseUnitObservable = displayGlucoseUnitObservable
+
+        self.allowsDeletion = allowsDeletion
+
+        super.init(style: .grouped)
+        
+        // not convinced we need this but should investigate
+         //displayGlucoseUnitObservable.$displayGlucoseUnit
+         //    .sink { [weak self] _ in self?.tableView.reloadData() }
+         //    .store(in: &cancellables)
 
         //only override savedglucose unit if we haven't saved this locally before
         if UserDefaults.standard.mmGlucoseUnit == nil {
             UserDefaults.standard.mmGlucoseUnit = glucoseUnit
         }
-
-        self.allowsDeletion = allowsDeletion
-
-        super.init(style: .grouped)
     }
 
     @available(*, unavailable)

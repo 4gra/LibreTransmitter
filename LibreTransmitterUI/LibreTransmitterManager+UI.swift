@@ -12,17 +12,21 @@ import HealthKit
 import LibreTransmitter
 
 extension LibreTransmitterManager: CGMManagerUI {
-    public static func setupViewController(glucoseTintColor: Color, guidanceColors: GuidanceColors) -> (UIViewController & CGMManagerSetupViewController & CompletionNotifying)? {
-        LibreTransmitterSetupViewController()
+    public static func setupViewController(bluetoothProvider: BluetoothProvider, colorPalette: LoopUIColorPalette) -> SetupUIResult<UIViewController & CGMManagerCreateNotifying & CGMManagerOnboardNotifying & CompletionNotifying, CGMManagerUI> {
+        return .createdAndOnboarded(LibreTransmitterManager())
+        // TODO: need to LibreTransmitterSetupViewController()
     }
-
-    public func settingsViewController(for glucoseUnit: HKUnit, glucoseTintColor: Color, guidanceColors: GuidanceColors) -> (UIViewController & CompletionNotifying) {
-        let settings = LibreTransmitterSettingsViewController(cgmManager: self, glucoseUnit: glucoseUnit, allowsDeletion: true)
-        let nav = SettingsNavigationViewController(rootViewController: settings)
+    
+    //public func settingsViewController(for glucoseUnit: HKUnit, glucoseTintColor: Color, guidanceColors: GuidanceColors) -> (UIViewController & CompletionNotifying) {
+    public func settingsViewController(for displayGlucoseUnitObservable: DisplayGlucoseUnitObservable, bluetoothProvider: BluetoothProvider, colorPalette: LoopUIColorPalette) -> (UIViewController & CGMManagerOnboardNotifying & CompletionNotifying) {
+        let settings = LibreTransmitterSettingsViewController(cgmManager: self, displayGlucoseUnitObservable: displayGlucoseUnitObservable, allowsDeletion: true)
+        let nav = CGMManagerSettingsNavigationViewController(rootViewController: settings)
         return nav
     }
-
-
+    
+    public var cgmStatusBadge: DeviceStatusBadge? {
+        nil
+    }
     
     // TODO Placeholder. This functionality will come with LOOP-1311
     public var cgmStatusHighlight: DeviceStatusHighlight? {

@@ -6,13 +6,12 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
-import Foundation
 import LoopKitUI
 import LibreTransmitter
 import LibreTransmitterUI
 import os.log
 
-class LibreTransmitterPlugin: NSObject, LoopUIPlugin {
+class LibreTransmitterPlugin: NSObject, CGMManagerUIPlugin {
     
     private let log = OSLog(category: "LibreTransmitterPlugin")
     
