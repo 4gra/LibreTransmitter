@@ -12,8 +12,9 @@ import SwiftUI
 import UIKit
 
 
-class LibreTransmitterSetupViewController: UINavigationController, CGMManagerCreateNotifying, CompletionNotifying {
-
+class LibreTransmitterSetupViewController: UINavigationController, CGMManagerCreateNotifying, CGMManagerOnboardNotifying, CompletionNotifying {
+    
+    weak var cgmManagerOnboardDelegate: CGMManagerOnboardDelegate?
     weak var completionDelegate: CompletionDelegate?
 
     // this must follow the protocol from loopkit, so it cannot be weak
@@ -69,6 +70,7 @@ class LibreTransmitterSetupViewController: UINavigationController, CGMManagerCre
             
             //setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
             cgmManagerCreateDelegate?.cgmManagerCreateNotifying(didCreateCGMManager: cgmManager)
+            cgmManagerOnboardDelegate?.cgmManagerOnboardNotifying(didOnboardCGMManager: cgmManager)
 
             if let newDevice = deviceSelect.rootView.getNewDeviceId() {
                 print("dabear: Setupcontroller will set new device to \(newDevice)")
@@ -78,5 +80,7 @@ class LibreTransmitterSetupViewController: UINavigationController, CGMManagerCre
             stopScan()
         }
         completionDelegate?.completionNotifyingDidComplete(self)
+        
+        
     }
 }

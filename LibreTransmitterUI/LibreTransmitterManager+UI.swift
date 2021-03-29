@@ -12,9 +12,9 @@ import HealthKit
 import LibreTransmitter
 
 extension LibreTransmitterManager: CGMManagerUI {
+    
     public static func setupViewController(bluetoothProvider: BluetoothProvider, colorPalette: LoopUIColorPalette) -> SetupUIResult<UIViewController & CGMManagerCreateNotifying & CGMManagerOnboardNotifying & CompletionNotifying, CGMManagerUI> {
-        return .createdAndOnboarded(LibreTransmitterManager())
-        // TODO: need to LibreTransmitterSetupViewController()
+        return .userInteractionRequired(LibreTransmitterSetupViewController())
     }
     
     //public func settingsViewController(for glucoseUnit: HKUnit, glucoseTintColor: Color, guidanceColors: GuidanceColors) -> (UIViewController & CompletionNotifying) {
